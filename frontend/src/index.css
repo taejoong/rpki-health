@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  /* VT Maroon palette */
+  --color-cf-orange: #861F41;
+  --color-cf-orange-hover: #6d1935;
+  --color-cf-orange-light: #faf0f2;
+  --color-cf-accent: #E5751F;
+
+  /* Surfaces */
+  --color-cf-bg: #f8f8f9;
+  --color-cf-surface: #ffffff;
+  --color-cf-surface-2: #f3f3f6;
+  --color-cf-border: #e2e2e7;
+  --color-cf-border-strong: #c5c5ce;
+
+  /* Text */
+  --color-cf-text: #1a1a1f;
+  --color-cf-text-secondary: #5f6368;
+  --color-cf-text-muted: #636770;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  background: var(--color-cf-bg);
+  color: var(--color-cf-text);
+  margin: 0;
+}
+
+/* Spinner */
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--color-cf-border);
+  border-top-color: var(--color-cf-orange);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Page enter animation */
+.page-enter {
+  animation: fadeIn 0.15s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Card enter animation */
+.card-enter {
+  animation: slideUp 0.2s ease-out;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-cf-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-cf-border-strong); }

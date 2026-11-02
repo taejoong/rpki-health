@@ -1,0 +1,66 @@
+{
+ "hostmap_version": 1,
+ "updated": "2026-10-29",
+ "description": "Publication host (lower-case host of the first rsync URI of an SIA) -> {rir, class, operator}. Exact host names, no patterns. A host's class applies in the warehouse of its own rir; in another RIR's warehouse its objects are 'delegated' (they are not operated by that RIR). Hosts not listed are 'delegated'; objects without a resolvable host are 'unknown'. Evidence: CA certificates whose own SIA has the host, counted over all history in the warehouse of the rir (distinct keys, first and last notBefore), read on the production warehouses 2026-10-29.",
+ "classes": {
+  "rir_hosted": "the RIR's hosted CA service (the RIR operates the CA and the repository)",
+  "rir_paas": "the RIR's publication service for CAs its members run themselves (APNIC rpki.sub.apnic.net, ARIN RPS, RIPE NCC PaaS)",
+  "nir_hosted": "a National Internet Registry's CA platform and repository (IDNIC, JPNIC, CNNIC, TWNIC under APNIC; NIC.br under LACNIC)",
+  "delegated": "any other resolvable publication host",
+  "unknown": "no resolvable publication host"
+ },
+ "hosts": {
+  "rpki.afrinic.net": {"rir": "afrinic", "class": "rir_hosted", "operator": "AFRINIC",
+                       "evidence": "1,655 CA keys, notBefore 2011-10-06..2026-10-28; 1,480 live CA keys on 2026-10-29 (all of AFRINIC's)"},
+  "rpki.apnic.net": {"rir": "apnic", "class": "rir_hosted", "operator": "APNIC",
+                     "evidence": "11,207 CA keys, notBefore 2011-07-12..2026-10-29"},
+  "rpki.arin.net": {"rir": "arin", "class": "rir_hosted", "operator": "ARIN",
+                    "evidence": "11,656 CA keys, notBefore 2012-09-15..2026-10-29"},
+  "repository.lacnic.net": {"rir": "lacnic", "class": "rir_hosted", "operator": "LACNIC",
+                            "evidence": "12,068 CA keys, notBefore 2011-03-17..2026-10-28 (rpki.lacnic.net is the SIA host of no certificate)"},
+  "rpki.ripe.net": {"rir": "ripencc", "class": "rir_hosted", "operator": "RIPE NCC",
+                    "evidence": "76,943 CA keys, notBefore 2011-01-01..2026-10-29"},
+
+  "rpki.sub.apnic.net": {"rir": "apnic", "class": "rir_paas", "operator": "APNIC",
+                         "evidence": "52 CA keys, notBefore 2018-05-20..2026-10-29, all issued by rpki.apnic.net CAs"},
+  "rpki-rps.arin.net": {"rir": "arin", "class": "rir_paas", "operator": "ARIN",
+                        "evidence": "258 CA keys, notBefore 2022-01-11..2026-10-27 (also 17 keys under the APNIC and 58 under the RIPE NCC trust anchor)"},
+  "rsync.paas.rpki.ripe.net": {"rir": "ripencc", "class": "rir_paas", "operator": "RIPE NCC",
+                               "evidence": "1,164 CA keys, notBefore 2022-12-05..2026-10-29 (also 106 keys under the ARIN and 17 under the APNIC trust anchor)"},
+
+  "rpki.idnic.net": {"rir": "apnic", "class": "nir_hosted", "operator": "IDNIC",
+                     "evidence": "added: 7 CA keys, notBefore 2019-11-11..2020-01-10, issued by APNIC and by itself (IDNIC's first repository)"},
+  "rpki-ca.idnic.net": {"rir": "apnic", "class": "nir_hosted", "operator": "IDNIC",
+                        "evidence": "added: 351 CA keys, notBefore 2020-01-10..2020-10-20, issued by APNIC and by itself (IDNIC moved to repo-rpki.idnic.net in 2020-10)"},
+  "repo-rpki.idnic.net": {"rir": "apnic", "class": "nir_hosted", "operator": "IDNIC",
+                          "evidence": "2,325 CA keys, notBefore 2020-10-22..2026-05-01 (moved to rpki-rsync.idnic.net)"},
+  "rpki-rsync.idnic.net": {"rir": "apnic", "class": "nir_hosted", "operator": "IDNIC",
+                           "evidence": "2,349 CA keys, notBefore 2026-05-02..2026-10-29"},
+  "rpki-repository.nic.ad.jp": {"rir": "apnic", "class": "nir_hosted", "operator": "JPNIC",
+                                "evidence": "776 CA keys, notBefore 2018-02-07..2026-10-28"},
+  "rpki.cnnic.cn": {"rir": "apnic", "class": "nir_hosted", "operator": "CNNIC",
+                    "evidence": "1,355 CA keys, notBefore 2018-02-22..2026-03-15 (moved to rpki-rps.cnnic.cn)"},
+  "rpki-rps.cnnic.cn": {"rir": "apnic", "class": "nir_hosted", "operator": "CNNIC",
+                        "evidence": "635 CA keys, notBefore 2025-12-25..2026-10-29"},
+  "rpkica.twnic.net.tw": {"rir": "apnic", "class": "nir_hosted", "operator": "TWNIC",
+                          "evidence": "added: 6 CA keys, notBefore 2018-09-28..2018-10-08, issued by APNIC (TWNIC's first repository host)"},
+  "rpkica.twnic.tw": {"rir": "apnic", "class": "nir_hosted", "operator": "TWNIC",
+                      "evidence": "1,192 CA keys, notBefore 2018-10-02..2026-10-12"},
+  "rpki-repo.registro.br": {"rir": "lacnic", "class": "nir_hosted", "operator": "NIC.br",
+                            "evidence": "18,090 CA keys, notBefore 2019-12-10..2026-10-29, issued by LACNIC and by itself"},
+
+  "rpki.cernet.edu.cn": {"rir": "apnic", "class": "delegated", "operator": "CERNET",
+                         "evidence": "3 CA keys, notBefore 2024-03-13..2026-10-01; 592 signed-object EE certificates"},
+  "rpki.cernet.net": {"rir": "apnic", "class": "delegated", "operator": "CERNET",
+                      "evidence": "added: 2 CA keys, notBefore 2025-10-14..2026-02-27; 4,506 signed-object EE certificates, notBefore 2025-10-15..2026-05-14"},
+  "rsync.cernet.net": {"rir": "apnic", "class": "delegated", "operator": "CERNET",
+                       "evidence": "4 CA keys, notBefore 2026-05-28..2026-08-25; 745 signed-object EE certificates"},
+  "rsync.fiti.net.cn": {"rir": "apnic", "class": "delegated", "operator": "CERNET",
+                        "evidence": "1 CA key, notBefore 2026-05-14..2026-06-11; 4,181 signed-object EE certificates, notBefore 2026-05-22..2026-10-29 (the FITI repository)"}
+ },
+ "not_listed": [
+  "KRNIC, VNNIC and IRINN: no CA certificate in any warehouse has an SIA host matching krnic, kisa, *.kr, vnnic, *.vn, irinn or nixi (2026-10-29); their members' CAs are on rpki.apnic.net. The only *.in hosts are repo.nkn.in and repo2.nkn.in (National Knowledge Network, 4 keys from 2026-07), a delegated CA.",
+  "NIC Mexico: no publication host of its own in warehouse-lacnic.",
+  "rpki.rand.apnic.net: APNIC R&D's own CA (two keys, 2020-03..2022-05 and 2022-11.., issued by a CA hosted on rpki.apnic.net; 3,996 signed-object EE certificates 2020-03..2026-10), not a member service: delegated."
+ ]
+}

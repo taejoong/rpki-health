@@ -1,0 +1,48 @@
+RPKI Health
+Copyright (c) 2026, Virginia Tech
+parser/: Copyright (c) 2025-2026, Virginia Tech
+
+The code in this repository is licensed under the BSD 3-Clause License. See
+LICENSE. The parser/, backend/ and frontend/ directories carry their own
+LICENSE files with the same terms.
+
+Trademarks
+----------
+
+The NSF and ARIN logos in frontend/public/ (for example nsf-logo.png and
+arin-logo.svg) are trademarks of the U.S. National Science Foundation and of
+the American Registry for Internet Numbers, Ltd. They appear only to
+acknowledge funding. They are not licensed under the BSD 3-Clause License and
+may not be reused without permission from their owners.
+
+Third-party data
+----------------
+
+The software reads public data from the sources below. Data from each source
+is subject to its provider's terms of use. This repository does not include
+that data, except five public RPKI objects in parser/sample-crawl/ (a CRL, a
+manifest and three ROAs from ARIN's RPKI repository), which the tests use.
+
+- RIPE NCC RPKI repository archive (https://ftp.ripe.net/rpki/): daily
+  repository snapshots and VRP files.
+- The RPKI repositories of AFRINIC, APNIC, ARIN, LACNIC and RIPE NCC, and the
+  publication points delegated under them, collected with rpki-client.
+- NRO combined delegated statistics and the delegated statistics files of the
+  five RIRs.
+- RIPE NCC AS names (https://ftp.ripe.net/ripe/asnames/asn.txt).
+- RouteViews RIB dumps (University of Oregon Route Views Project) and RIPE RIS
+  RIB dumps (RIPE NCC Routing Information Service), read through the NetSecure
+  Lab's BGP warehouse API.
+
+Data derived from ARIN's RPKI repository, including the ARIN VRPs that the
+API's /roa/export returns, is subject to ARIN's Relying Party Agreement
+(https://www.arin.net/resources/manage/rpki/rpa.pdf). The API and its exports
+are provided for research and informational purposes; do not use them for
+routing decisions.
+
+Third-party software
+--------------------
+
+Python and npm packages that the code depends on are not included. They are
+listed in the requirements files of parser/ and backend/ and in
+frontend/package.json, and each is under its own license.

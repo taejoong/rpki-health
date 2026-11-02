@@ -1,0 +1,36 @@
+# Python / tooling
+__pycache__/
+.venv/
+.pytest_cache/
+.claude/
+
+# Warehouse data and ETL state (keep outside git)
+warehouse
+warehouse-*
+analysis/warehouse
+test-warehouse/
+test-kv.sqlite
+*.sqlite
+outputs/
+ips/
+
+# Local data outputs
+*.parquet
+*.duckdb
+*.roar
+validity-map.json
+.env*
+
+# Analysis outputs
+analysis2/out/*
+!analysis2/out/.gitkeep
+*.csv
+*.png
+/ipv6-lacnic
+
+# Scratch / backups
+*.bak
+tmp.py
+
+# Local-only helper, not part of the project
+sync.py

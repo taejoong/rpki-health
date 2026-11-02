@@ -1,0 +1,20 @@
+__pycache__/
+*.pyc
+.tmp/
+*.egg-info/
+dist/
+build/
+.env
+
+# Runtime data (SQLite stores, etc.)
+data/
+
+# Wrangler cache
+.wrangler/
+
+# Frontend is a separate git repo
+frontend/
+
+# Local scratch
+.claude/
+*.bak-*

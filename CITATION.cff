@@ -1,0 +1,29 @@
+# Citation metadata for RPKI Health (Citation File Format 1.2.0).
+# The release script fills in "version" and "date-released" below when it
+# builds a release snapshot. Do not edit those two values by hand.
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+type: software
+title: "RPKI Health: RPKI Warehouse code"
+abstract: >-
+  The code behind RPKI Warehouse (https://rpki.netsecurelab.org), a longitudinal
+  observatory for the RPKI objects of all five Regional Internet Registries: an
+  ETL that loads rpki-client collections and the RIPE NCC RPKI archive into
+  per-RIR Parquet warehouses, a read-only API with country analytics, and a web
+  dashboard.
+authors:
+  - name: "NetSecure Lab, Virginia Tech"
+  - given-names: Taejoong
+    family-names: Chung
+    affiliation: Virginia Tech
+version: "1.0.0"
+date-released: 2026-11-02
+license: BSD-3-Clause
+repository-code: "https://github.com/taejoong/rpki-health"
+url: "https://rpki.netsecurelab.org"
+keywords:
+  - RPKI
+  - ROA
+  - BGP
+  - routing security
+  - Internet measurement

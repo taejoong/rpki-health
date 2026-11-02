@@ -1,0 +1,11 @@
+asn1crypto
+click
+cryptography
+pyarrow
+pyroaring; platform_system != 'Windows'
+sqlite-utils
+duckdb
+zstandard
+xxhash
+pytest
+tqdm

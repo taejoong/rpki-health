@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.wrangler/
+*.local
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+.DS_Store
+npm-debug.log*

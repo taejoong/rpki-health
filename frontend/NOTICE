@@ -1,0 +1,13 @@
+RPKI Warehouse frontend
+Copyright (c) 2026, Virginia Tech
+
+This code is licensed under the BSD 3-Clause License. See LICENSE.
+
+Trademarks
+
+The NSF and ARIN logos in public/, including public/nsf-logo.png and
+public/arin-logo.svg, are trademarks of the U.S. National Science Foundation
+(NSF) and of the American Registry for Internet Numbers, Ltd. (ARIN). They
+are shown only to acknowledge funding. They are not covered by the BSD
+3-Clause License, which applies to the rest of this code, and they may not be
+reused without permission from their owners.
