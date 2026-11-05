@@ -1,24 +1,24 @@
 {
-  "release": "v1.0.0",
-  "date": "2026-11-02",
+  "release": "v1.0.1",
+  "date": "2026-11-05",
   "components": {
     "rpki-health": {
       "path": ".",
-      "ref": "v1.0.0",
-      "commit": "86c3185105d44d86065cb72a1bf6640540c07b7d",
-      "date": "2026-11-02T17:30:23Z"
+      "ref": "v1.0.1",
+      "commit": "43d15ef7ed9268397d1d5ef330c961ae710af16b",
+      "date": "2026-11-05T07:02:24Z"
     },
     "rpki-parser": {
       "path": "parser",
-      "ref": "v1.0.0",
-      "commit": "bfa5ea9f30d1cc223086d1faf37e1a0832cd5c1c",
-      "date": "2026-11-02T18:35:20Z"
+      "ref": "v1.0.1",
+      "commit": "9d85c1f23bc7afc4416c08df0724cf9d8e6e5056",
+      "date": "2026-11-05T07:02:24Z"
     },
     "rpki-backend": {
       "path": "backend",
-      "ref": "v1.0.0",
-      "commit": "eaabdbfabd400a086fb49955053884f43c5e49a3",
-      "date": "2026-11-02T18:35:06Z"
+      "ref": "v1.0.1",
+      "commit": "67c42c957c9690f0b4cb4ba78ddb0dc333152bb2",
+      "date": "2026-11-05T07:02:24Z"
     },
     "rpki-frontend": {
       "path": "frontend",

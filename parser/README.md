@@ -215,7 +215,7 @@ warehouse-<tal>/
         objects.roar  # Roaring bitmap of object_ids present in that snapshot
   kv.sqlite            # global mapping of object_hash -> object_id (and seen metadata)
   snapshots/           # ts=<snapshot>/metadata.json (+ errors.csv) for every snapshot loaded;
-                       # the backend API and the scorecard ledger read them, do not delete
+                       # the backend API and the indicators ledger read them, do not delete
 ```
 
 * **KV store (`kv.sqlite`)**: maps 64-hex `object_hash` to int `object_id`. If you share KV across TALs, identical objects share IDs across TALs. If you keep a separate KV per TAL, IDs are per-TAL and cannot be compared directly. Production shares one KV across all RIRs: `warehouse-shared/kv.sqlite`.

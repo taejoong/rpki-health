@@ -25,7 +25,7 @@ of each one in `VERSIONS.json`.
 | Directory | Contents |
 |---|---|
 | [`parser/`](parser/) | Collection cycle (`rpki_cycle.sh`), ETL (`rpki_etl.py`) and object parsers, presence-run builder (`analysis/build_presence_runs.py`), research scripts (`analysis/`, `analysis2/`) |
-| [`backend/`](backend/) | FastAPI app (`app/`), country analytics pipeline (`pipelines/country/`), weekly scorecard pipeline (`pipelines/scorecard/`), tests |
+| [`backend/`](backend/) | FastAPI app (`app/`), country analytics pipeline (`pipelines/country/`), weekly indicators pipeline (`pipelines/scorecard/`), tests |
 | [`frontend/`](frontend/) | React/Vite UI, and the Cloudflare Pages Function that proxies `/api` (`functions/api/[[path]].js`) |
 
 Host configuration (crontab, systemd units, tunnel configuration, log rotation, backup and reload
@@ -45,7 +45,7 @@ flowchart TB
     WH[("Per-RIR Parquet warehouses<br/>objects, membership, validity")]
     PRES[("Presence runs and stats")]
     CBUILD[("Country analytics builds")]
-    SBUILD[("Scorecard builds and<br/>weekly releases")]
+    SBUILD[("Indicators builds and<br/>weekly releases")]
   end
   subgraph L2["Layer 2: Refresh pipeline (cron, UTC)"]
     CYCLE["Collection + ETL<br/>every 20 min"]
@@ -53,7 +53,7 @@ flowchart TB
     COUNTRY["Country analytics<br/>daily 07:45"]
     RELOAD["API hot reload<br/>every 30 min"]
     BACKUP["Off-host backup<br/>weekly"]
-    SCORE["Operations scorecard<br/>Monday 05:00"]
+    SCORE["RPKI Operations Indicators<br/>Monday 05:00"]
   end
   subgraph L3["Layer 3: Dashboard"]
     API["rpki-backend<br/>FastAPI + in-memory DuckDB"]
@@ -126,17 +126,17 @@ virtual environment's interpreter by absolute path, because cron has no `python`
 | Daily 01:00 | `parser/run_daily_build_presence.sh` | `object_presence_runs` and `object_presence_stats` of every RIR, rebuilt from all bitmaps; exits non-zero if any RIR fails |
 | Daily 07:45 | `backend/pipelines/country/run_daily.sh` | A new country analytics build (below) |
 | Monday 03:00 | Backup script (ops) | Off-host copy of the warehouses (see Operations) |
-| Monday 05:00 | `backend/pipelines/scorecard/run_weekly.sh` | A new scorecard build and an immutable weekly release (below) |
+| Monday 05:00 | `backend/pipelines/scorecard/run_weekly.sh` | A new indicators build and an immutable weekly release (below) |
 | Sunday 04:00 | logrotate (ops) | Rotated job logs |
 
 Four locks keep the jobs apart. The **cycle lock** is held by each collection cycle, and for
 about a minute by the backup. The **presence lock** is held exclusively by the presence rebuild,
 which rewrites its tables in place, and shared by API startup and reload, the country pipeline's
-warehouse export, the scorecard while it reads the presence tables, and the backup. A reload that
-cannot get it within 30 minutes gives up and the next one retries; neither the export nor the
-scorecard reads the warehouses between 00:45 and 01:20. The **country lock** and the **scorecard
-lock** allow one run of their pipeline at a time; a run that finds its lock taken exits with code
-75.
+warehouse export, the indicators pipeline while it reads the presence tables, and the backup. A
+reload that cannot get it within 30 minutes gives up and the next one retries; neither the export
+nor the indicators pipeline reads the warehouses between 00:45 and 01:20. The **country lock** and
+the **indicators lock** allow one run of their pipeline at a time; a run that finds its lock taken
+exits with code 75.
 
 Data freshness in the API. RP-validity flags come from the latest 20-minute cycle and arrive with
 the next reload. The live ROA set comes from the presence tables (objects last seen no earlier
@@ -155,19 +155,20 @@ BGP-based lenses start in 2020. A run ends OK (exit 0), PARTIAL (exit 1: publish
 refresh failed or data is stale) or FAILED (exit 2: `current` unchanged). The API reads `current`
 per request, so a new build needs no reload. See `backend/pipelines/country/README.md`.
 
-Operations scorecard. `backend/pipelines/scorecard` measures, every week and for each RIR, how its
-RPKI CA and repository services behave: CRL and manifest freshness, empty CRLs, revocation of
-replaced EE certificates, late re-issue, re-signing cadence, CA certificate lifetime, relying-party
-rejections and the live inventory. It splits each RIR by publication class (the RIR's hosted CA
-service, its publication service for member-run CAs, National Internet Registry platforms and
-other delegated hosts). Every value carries its sample size, the number of CA keys behind it, the
-largest key's share, a status and the RFC references of its definition; there are no grades.
+RPKI Operations Indicators. `backend/pipelines/scorecard` measures, every week and for each RIR,
+how its RPKI CA and repository services behave: CRL and manifest freshness, empty CRLs, revocation
+of replaced EE certificates, late re-issue, re-signing cadence, CA certificate lifetime,
+relying-party rejections and the live inventory. It splits each RIR by publication class (the RIR's
+hosted CA service, its publication service for member-run CAs, National Internet Registry platforms
+and other delegated hosts). Every value carries its sample size, the number of CA keys behind it,
+the largest key's share, a status and the RFC references of its definition; there are no grades.
 Weeks are ISO weeks in UTC. An observation ledger, built from the warehouses' snapshot metadata,
 records when collection was incomplete; values for those periods are marked `masked`, and values
 with too few observations or CA keys `insufficient`. Each run recomputes the open weeks (the last
 six by default), keeps final weeks frozen, writes a build to `builds/<timestamp>/` and the weekly
 run also writes an immutable release `releases/<YYYY-Www>/` with a list of changes. No API serves
-the scorecard yet; it will be published after validation. See
+the indicators yet; they will be published after validation. The indicators pipeline's directory,
+files and settings keep the earlier working name `scorecard`. See
 `backend/pipelines/scorecard/README.md`.
 
 ## Layer 3: Dashboard
@@ -233,8 +234,8 @@ Web UI (`frontend/`):
   (see `NOTICE`).
 - **Country analytics**: a daily build served by `/analytics/country/*`;
   `/analytics/country/meta` lists the method, the sources and data-quality notes.
-- **Operations scorecard (not public yet)**: weekly per-RIR metrics back to 2012, refreshed every
-  Monday since November 2026; they will be published after validation.
+- **RPKI Operations Indicators (not public yet)**: weekly per-RIR metrics back to 2012, refreshed
+  every Monday since November 2026; they will be published after validation.
 - **Data releases (planned)**: dated releases on Zenodo under CC-BY-4.0, weekly once they start.
   Their contents and format are not final.
 
@@ -242,14 +243,14 @@ Web UI (`frontend/`):
 
 - **Heartbeats.** Each cron job pings an external heartbeat monitor only when it exits with
   status 0, so a failed run shows up as a missed ping. The reload job waits for the result, so it
-  pings only after a successful reload. The country and scorecard jobs ping only on OK.
+  pings only after a successful reload. The country and indicators jobs ping only on OK.
 - **Logs.** Each job appends to its own log file. A weekly logrotate run keeps eight rotated copies
-  and truncates the live files in place. The country and scorecard jobs write one summary line per
+  and truncates the live files in place. The country and indicators jobs write one summary line per
   run.
 - **Backup.** Weekly, the backup script waits for the ETL locks, takes a reflink copy of the five
   warehouses and `warehouse-shared` (about 70 seconds under the locks), then sends that copy
   off-host with incremental rsync, never deleting files on the target. Country analytics data is
-  not backed up (it is rebuilt from sources), nor are the scorecard's data directory and the API's
+  not backed up (it is rebuilt from sources), nor are the indicators' data directory and the API's
   request log (the API creates an empty one at startup).
 - **Rebuild.** (1) Check out the three components and the private operations repository.
   (2) Create a Python virtual environment for `parser/` and one for `backend/` from their
@@ -259,7 +260,7 @@ Web UI (`frontend/`):
   tokens; and the BGP warehouse API key. The Cloudflare Pages project
   keeps `BACKEND_URL` and the proxy token as Pages secrets. (5) Restore the warehouses from the
   latest weekly copy. (6) Rebuild country analytics as described in
-  `backend/pipelines/country/README.md`, and backfill the scorecard as described in
+  `backend/pipelines/country/README.md`, and backfill the indicators as described in
   `backend/pipelines/scorecard/README.md`.
 
 ## Security boundaries

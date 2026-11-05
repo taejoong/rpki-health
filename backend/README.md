@@ -7,7 +7,7 @@ that rpki-parser builds. Collection with rpki-client runs every 20 minutes; hist
 
 The public API is at `https://rpki.netsecurelab.org/api/<endpoint>`. It needs no key, and each
 client may send 60 requests per minute. This component also holds two batch pipelines: the daily
-country analytics build (`pipelines/country/`) and the weekly RPKI operations scorecard
+country analytics build (`pipelines/country/`) and the weekly RPKI Operations Indicators pipeline
 (`pipelines/scorecard/`). [ARCHITECTURE.md](../ARCHITECTURE.md) in the
 [rpki-health](https://github.com/taejoong/rpki-health) repository shows how the parser, this API
 and the web UI fit together.
@@ -391,7 +391,7 @@ app/
     stats.py        # /stats
 pipelines/
   country/          # daily country ROA deployment build (see its README)
-  scorecard/        # weekly RPKI operations scorecard (see its README)
+  scorecard/        # weekly RPKI Operations Indicators (see its README)
 docs/
   API_REFERENCE.md  # Detailed endpoint reference (original endpoints)
 tests/              # pytest suite

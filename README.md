@@ -21,7 +21,7 @@ compare ROA deployment across countries and RIRs. The NetSecure Lab at Virginia 
 | Directory | Component | What it does |
 |---|---|---|
 | [`parser/`](parser/) | rpki-parser | Runs rpki-client every 20 minutes and loads what it fetches into per-RIR Parquet warehouses: the parsed objects, a membership bitmap per snapshot, and the RP-validity verdicts. Rebuilds the presence tables (first seen, last seen) daily. Also holds research scripts. |
-| [`backend/`](backend/) | rpki-backend | The read-only API over the warehouses (FastAPI, in-memory DuckDB), the daily country analytics pipeline and the weekly RPKI operations scorecard. |
+| [`backend/`](backend/) | rpki-backend | The read-only API over the warehouses (FastAPI, in-memory DuckDB), the daily country analytics pipeline and the weekly RPKI Operations Indicators. |
 | [`frontend/`](frontend/) | rpki-frontend | The web UI (React, Vite) on Cloudflare Pages, and the Pages Function that forwards `/api` to the API. |
 
 The top-level files cover the whole system: [`ARCHITECTURE.md`](ARCHITECTURE.md),

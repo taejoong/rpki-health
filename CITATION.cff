@@ -16,8 +16,8 @@ authors:
   - given-names: Taejoong
     family-names: Chung
     affiliation: Virginia Tech
-version: "1.0.0"
-date-released: 2026-11-02
+version: "1.0.1"
+date-released: 2026-11-05
 license: BSD-3-Clause
 repository-code: "https://github.com/taejoong/rpki-health"
 url: "https://rpki.netsecurelab.org"

@@ -1,10 +1,12 @@
-# Weekly RPKI operations scorecard
+# RPKI Operations Indicators
 
 Weekly per-RIR operational metrics of the RPKI CA and repository services: CRL and manifest freshness,
 revocation of replaced EE certificates, late re-issue, re-signing cadence, CA certificate lifetime,
 relying-party rejections and the live inventory, per RIR and per publication class. Every value carries
 its sample size, the number of CA keys behind it, the largest key's share, a status and the RFC
 references of its definition. There are no grades. Supported by the ARIN Community Grant Program.
+
+The pipeline's directory, files and settings keep the earlier working name `scorecard`.
 
 Outputs stay internal (files under the data root); no API reads them yet.
 
@@ -419,5 +421,5 @@ is that of the whole process so far (the log's "MB" are MiB; given here in GiB).
 
 ### Framework stub (`scs/m_stub.py`: stub_crl_count)
 
-CRLs per week and population, the smallest complete module (see `scs/metrics.py`). Not a scorecard
-metric: it runs only when named with `--metrics stub_crl_count`.
+CRLs per week and population, the smallest complete module (see `scs/metrics.py`). Not a metric of
+the weekly indicators: it runs only when named with `--metrics stub_crl_count`.
